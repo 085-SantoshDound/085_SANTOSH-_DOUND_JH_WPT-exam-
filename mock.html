@@ -1,0 +1,87 @@
+<html>
+  <body>
+    <br /><input type="number" id="id" name="id" placeholder="BOOKID" /><span
+      id="msg"
+      >MSG IS HERE</span
+    >
+    <br />
+    <input type="text" id="name" name="name" placeholder="BOOK NAME" /><br />
+    <input
+      type="number"
+      id="price"
+      name="price"
+      placeholder="BOOK PRICE"
+    /><br />
+    <button type="submit" id="btn" name="btn">SUBMIT</button>
+  </body>
+
+  <script src="jquery-3.5.1.min.js"></script>
+  <script>
+    //our scrip will come here
+
+    $(document).ready(function () {
+      //   let arr = [
+      //     { id: 1, name: 'cdac', price: '150' },
+      //     { id: 4, name: 'movies', price: '300' },
+      //     { id: 3, name: 'lifestyle', price: '150' },
+      //   ];
+      //   console.log(arr);
+      $('#id').blur(() => {
+        console.log('on blur');
+        let data1 = {
+          id: parseInt($('#id').val()),
+          name: $('#name').val(),
+          price: parseInt($('#price').val()),
+        };
+        console.log(typeof data1.id);
+        console.log(typeof data1.name);
+        console.log(typeof data1.price);
+        console.log(data1);
+
+        let ajaxdata = {
+          type: 'get',
+          dataType: 'text',
+          url: 'http://localhost:8081/select',
+          data: data1,
+          success: function (gfs) {
+            console.log('CONNECTION WITH DATABASE', +gfs.status);
+            $('#msg').html('SELECTED SUCESSFULLY');
+          },
+          error: function (e) {
+            console.log('we have trouble ' + JSON.stringify(e) + e);
+          },
+        };
+        $.ajax(ajaxdata);
+
+        $('#btn').click(function () {
+          console.log('onclick');
+
+          let data = {
+            id: parseInt($('#id').val()),
+            name: $('#name').val(),
+            price: parseInt($('#price').val()),
+          };
+          console.log(typeof data.id);
+          console.log(typeof data.name);
+          console.log(typeof data.price);
+          console.log(data);
+
+          let ajaxdata = {
+            type: 'get',
+            dataType: 'text',
+            url: 'http://localhost:8081/update',
+            data: data,
+            success: function (gfs) {
+              console.log('UPDATED SUCESSFULLY');
+              $('#msg').html('SELECTED SUCESSFULLY');
+            },
+            error: function (e) {
+              console.log('we have trouble ' + JSON.stringify(e) + e);
+            },
+          };
+          $.ajax(ajaxdata);
+        });
+      });
+    });
+  </script>
+</html>
